@@ -32,13 +32,17 @@ final class SnapshotStoreSchema
     {
         $snapshot = $schema->createTable($snapshotName);
 
-        $snapshot->addColumn('aggregate_type', 'string');
-        $snapshot->addColumn('aggregate_id', 'string');
-        $snapshot->addColumn('last_version', 'integer');
-        $snapshot->addColumn('created_at', 'string');
+        // UUID4 of linked aggregate
+        $snapshot->addColumn('aggregate_id', 'string', ['fixed' => true, 'length' => 36]);
+        // Class of the linked aggregate
+        $snapshot->addColumn('aggregate_type', 'string', ['length' => 150]);
+        // Version of the aggregate after event was recorded
+        $snapshot->addColumn('last_version', 'integer', ['unsigned' => true]);
+        // DateTime ISO8601 + microseconds UTC stored as a string e.g. 2016-02-02T11:45:39.000000
+        $snapshot->addColumn('created_at', 'string', ['fixed' => true, 'length' => 26]);
         $snapshot->addColumn('aggregate_root', 'blob');
 
-        $snapshot->addIndex(['aggregate_type', 'aggregate_id']);
+        $snapshot->addIndex(['aggregate_id', 'aggregate_type']);
     }
 
     /**

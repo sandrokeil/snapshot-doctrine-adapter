@@ -8,7 +8,16 @@ Doctrine Adapter for the Snapshot Store
 
 ## Set Up
 
-How to use the adapter is explained in the [prooph/event-store docs](https://github.com/prooph/event-store/blob/master/docs/snapshots.md). To help you with setting up the snapshot tables we ship a [SnapshotStoreSchema](src/Schema/SnapshotStoreSchema.php) helper with the package. You can use it in a doctrine migrations script or manually by passing in a `Doctrine\DBAL\Schema\Schema` and executing the generated SQL afterwards.
+How to use the adapter is explained in the 
+[prooph/event-store docs](https://github.com/prooph/event-store/blob/master/docs/snapshots.md). To help you with 
+setting up the snapshot tables we ship a [SnapshotStoreSchema](src/Schema/SnapshotStoreSchema.php) helper with the 
+package. You can use it in a Doctrine migrations script or manually by passing in a `Doctrine\DBAL\Schema\Schema` and 
+executing the generated SQL afterwards.
+
+> The database schema is only a suggestion. The `aggregate_type` column has a length of 150 chars. If you have very 
+long class names you should increase this length, otherwise it could lead to errors in your application. This length
+should be equal with the `aggregate_type` length in the 
+[event store table](https://github.com/prooph/event-store-doctrine-adapter "Doctrine Adapter for ProophEventStore").
 
 ## Interop Factory
 

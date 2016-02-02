@@ -58,8 +58,8 @@ final class DoctrineSnapshotAdapter implements Adapter
         $queryBuilder
             ->select('*')
             ->from($table, $table)
-            ->where('aggregate_type = :aggregate_type')
-            ->andWhere('aggregate_id = :aggregate_id')
+            ->where('aggregate_id = :aggregate_id')
+            ->andWhere('aggregate_type = :aggregate_type')
             ->orderBy('last_version', 'DESC')
             ->setParameter('aggregate_type', $aggregateType->toString())
             ->setParameter('aggregate_id', $aggregateId)
@@ -114,8 +114,8 @@ final class DoctrineSnapshotAdapter implements Adapter
         $table = $this->getTable($snapshot->aggregateType());
         $queryBuilder
             ->delete($table)
-            ->where('aggregate_type = :aggregate_type')
-            ->andWhere('aggregate_id = :aggregate_id')
+            ->where('aggregate_id = :aggregate_id')
+            ->andWhere('aggregate_type = :aggregate_type')
             ->andWhere('last_version < :last_version')
             ->setParameter('aggregate_type', $snapshot->aggregateType()->toString())
             ->setParameter('aggregate_id', $snapshot->aggregateId())
